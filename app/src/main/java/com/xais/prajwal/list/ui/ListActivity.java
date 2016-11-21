@@ -1,11 +1,12 @@
-package com.xais.prajwal.list;
+package com.xais.prajwal.list.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
+import com.xais.prajwal.list.R;
 import com.xais.prajwal.list.adapter.RecyclerAdapter;
 import com.xais.prajwal.list.controller.RestManager;
 import com.xais.prajwal.list.pojo.ListPojo;
@@ -16,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements RecyclerAdapter.ListClickListner {
+public class ListActivity extends AppCompatActivity implements RecyclerAdapter.ListClickListner {
 
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -25,14 +26,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_list);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
-        recyclerAdapter = new RecyclerAdapter(MainActivity.this);
+        recyclerAdapter = new RecyclerAdapter(ListActivity.this);
         recyclerView.setAdapter(recyclerAdapter);
 
         restManager = new RestManager();
@@ -69,7 +70,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.L
 
         int id = selectedListPojo.getId();
 
-        Toast.makeText(MainActivity.this, "" + id, Toast.LENGTH_SHORT).show();
+        /*Toast.makeText(ListActivity.this, "Position id is " + id, Toast.LENGTH_SHORT).show();*/
+
+        Intent intent = new Intent(ListActivity.this, CommentActivity.class);
+        intent.putExtra("Id", id);
+        startActivity(intent);
+
 
     }
 }

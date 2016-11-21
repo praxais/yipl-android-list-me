@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.xais.prajwal.list.MainActivity">
+    tools:context="com.xais.prajwal.list.ui.ListActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
