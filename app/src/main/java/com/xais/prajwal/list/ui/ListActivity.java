@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.xais.prajwal.list.R;
 import com.xais.prajwal.list.adapter.ListRecyclerAdapter;
 import com.xais.prajwal.list.controller.RestManager;
+import com.xais.prajwal.list.helper.ListDatabase;
+import com.xais.prajwal.list.helper.Utils;
 import com.xais.prajwal.list.pojo.ListPojo;
 
 import java.util.List;
@@ -23,6 +25,8 @@ public class ListActivity extends AppCompatActivity implements ListRecyclerAdapt
     RecyclerView recyclerView;
     ListRecyclerAdapter listRecyclerAdapter;
     RestManager restManager;
+
+    ListDatabase listDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,35 @@ public class ListActivity extends AppCompatActivity implements ListRecyclerAdapt
         recyclerView.setAdapter(listRecyclerAdapter);
 
         restManager = new RestManager();
+
+        listDatabase = new ListDatabase(ListActivity.this);
+
+        if (Utils.isNetworkAvailable(getApplicationContext())){
+            getFeed();
+        }else {
+            getFeedFromDatabase();
+        }
+        
+
+    }
+
+    @Override
+    public void onClick(int position) {
+
+        ListPojo selectedListPojo = listRecyclerAdapter.getSelectedList(position);
+
+        int id = selectedListPojo.getId();
+
+       /* Toast.makeText(ListActivity.this, "Position id is " + id, Toast.LENGTH_SHORT).show();*/
+
+        Intent intent = new Intent(ListActivity.this, CommentActivity.class);
+        intent.putExtra("Id", id);
+        startActivity(intent);
+
+
+    }
+
+    public void getFeed() {
 
         Call<List<ListPojo>> listCall = restManager.getApiService().getAllList();
 
@@ -62,21 +95,13 @@ public class ListActivity extends AppCompatActivity implements ListRecyclerAdapt
 
             }
         });
+
     }
 
-    @Override
-    public void onClick(int position) {
+    public void getFeedFromDatabase() {
 
-        ListPojo selectedListPojo = listRecyclerAdapter.getSelectedList(position);
 
-        int id = selectedListPojo.getId();
-
-       /* Toast.makeText(ListActivity.this, "Position id is " + id, Toast.LENGTH_SHORT).show();*/
-
-        Intent intent = new Intent(ListActivity.this, CommentActivity.class);
-        intent.putExtra("Id", id);
-        startActivity(intent);
-
+        List<ListPojo> pojoList = listDatabase.getListPojo();
 
     }
 }
