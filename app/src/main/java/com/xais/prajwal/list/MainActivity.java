@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.xais.prajwal.list.adapter.RecyclerAdapter;
 import com.xais.prajwal.list.controller.RestManager;
@@ -15,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerAdapter.ListClickListner {
 
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
-        recyclerAdapter = new RecyclerAdapter();
+        recyclerAdapter = new RecyclerAdapter(MainActivity.this);
         recyclerView.setAdapter(recyclerAdapter);
 
         restManager = new RestManager();
@@ -42,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<ListPojo>> call, Response<List<ListPojo>> response) {
 
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     List<ListPojo> listPojo = response.body();
 
-                    for (int i=0; i < listPojo.size(); i++){
+                    for (int i = 0; i < listPojo.size(); i++) {
                         ListPojo pojo = listPojo.get(i);
                         recyclerAdapter.addData(pojo);
                     }
@@ -59,5 +60,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onClick(int position) {
+
+        ListPojo selectedListPojo = recyclerAdapter.getSelectedList(position);
+
+        int id = selectedListPojo.getId();
+
+        Toast.makeText(MainActivity.this, "" + id, Toast.LENGTH_SHORT).show();
+
     }
 }

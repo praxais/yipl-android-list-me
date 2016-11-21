@@ -19,9 +19,11 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
 
     List<ListPojo> listPojo;
+    private final ListClickListner clickListner;
 
-    public RecyclerAdapter() {
+    public RecyclerAdapter(ListClickListner listner) {
         listPojo = new ArrayList<>();
+        clickListner = listner;
     }
 
     @Override
@@ -50,6 +52,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         notifyDataSetChanged();
     }
 
+    public ListPojo getSelectedList(int position) {
+        return listPojo.get(position);
+    }
+
     public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView userId, id, title, body;
@@ -60,11 +66,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             id = (TextView) itemView.findViewById(R.id.txtId);
             title = (TextView) itemView.findViewById(R.id.txtTitle);
             body = (TextView) itemView.findViewById(R.id.txtBody);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-
+            clickListner.onClick(getLayoutPosition());
         }
+    }
+
+    public interface ListClickListner {
+        void onClick(int position);
     }
 }
