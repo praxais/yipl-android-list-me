@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.xais.prajwal.list.R;
-import com.xais.prajwal.list.adapter.RecyclerAdapter;
+import com.xais.prajwal.list.adapter.ListRecyclerAdapter;
 import com.xais.prajwal.list.controller.RestManager;
 import com.xais.prajwal.list.pojo.ListPojo;
 
@@ -17,10 +17,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListActivity extends AppCompatActivity implements RecyclerAdapter.ListClickListner {
+public class ListActivity extends AppCompatActivity implements ListRecyclerAdapter.ListClickListner {
 
     RecyclerView recyclerView;
-    RecyclerAdapter recyclerAdapter;
+    ListRecyclerAdapter listRecyclerAdapter;
     RestManager restManager;
 
     @Override
@@ -33,8 +33,8 @@ public class ListActivity extends AppCompatActivity implements RecyclerAdapter.L
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
-        recyclerAdapter = new RecyclerAdapter(ListActivity.this);
-        recyclerView.setAdapter(recyclerAdapter);
+        listRecyclerAdapter = new ListRecyclerAdapter(ListActivity.this);
+        recyclerView.setAdapter(listRecyclerAdapter);
 
         restManager = new RestManager();
 
@@ -50,7 +50,7 @@ public class ListActivity extends AppCompatActivity implements RecyclerAdapter.L
 
                     for (int i = 0; i < listPojo.size(); i++) {
                         ListPojo pojo = listPojo.get(i);
-                        recyclerAdapter.addData(pojo);
+                        listRecyclerAdapter.addData(pojo);
                     }
 
                 }
@@ -66,7 +66,7 @@ public class ListActivity extends AppCompatActivity implements RecyclerAdapter.L
     @Override
     public void onClick(int position) {
 
-        ListPojo selectedListPojo = recyclerAdapter.getSelectedList(position);
+        ListPojo selectedListPojo = listRecyclerAdapter.getSelectedList(position);
 
         int id = selectedListPojo.getId();
 

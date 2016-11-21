@@ -16,12 +16,12 @@ import java.util.List;
  * Created by Prajwal on 2016-11-21.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
+public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.RecyclerViewHolder> {
 
     List<ListPojo> listPojo;
     private final ListClickListner clickListner;
 
-    public RecyclerAdapter(ListClickListner listner) {
+    public ListRecyclerAdapter(ListClickListner listner) {
         listPojo = new ArrayList<>();
         clickListner = listner;
     }
