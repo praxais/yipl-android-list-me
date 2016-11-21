@@ -46,6 +46,11 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         return commentPojo.size();
     }
 
+    public void addData(CommentPojo pojo) {
+        commentPojo.add(pojo);
+        notifyDataSetChanged();
+    }
+
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         TextView postId, id, name, email, body;

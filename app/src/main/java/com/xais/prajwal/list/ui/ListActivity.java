@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.xais.prajwal.list.R;
 import com.xais.prajwal.list.adapter.ListRecyclerAdapter;
@@ -70,7 +71,7 @@ public class ListActivity extends AppCompatActivity implements ListRecyclerAdapt
 
         int id = selectedListPojo.getId();
 
-        /*Toast.makeText(ListActivity.this, "Position id is " + id, Toast.LENGTH_SHORT).show();*/
+       /* Toast.makeText(ListActivity.this, "Position id is " + id, Toast.LENGTH_SHORT).show();*/
 
         Intent intent = new Intent(ListActivity.this, CommentActivity.class);
         intent.putExtra("Id", id);
